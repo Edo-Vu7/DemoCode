@@ -42,22 +42,22 @@ entry.pack(padx=20, pady=10)
 button = tk.Button(root, text="Submit", command=submit)
 button.pack(padx=20, pady=20)
 
-' Chạy vòng lặp chính của ứng dụng'
+' Chạy vòng lặp chính của ứng dụng '
 root.mainloop()
 
 def get_file_name():
-    """Prompt the user to input the file name."""
+    """Trả về file nhập vào từ app"""
     return file_name_global
 
 def load_data(file_name, path):
-    """Load a single CSV file into a DataFrame."""
+    """Try cập vào file dữ liệu"""
     file_path = os.path.join(path, file_name)
     if not os.path.isfile(file_path):
         raise FileNotFoundError(f"No such file: '{file_path}'")
     return pd.read_csv(file_path)
 
 def combine_csv_files(path):
-    """Combine all CSV files in the specified directory into a single DataFrame."""
+    """Gộp tất cả các file .csv DataFrame."""
     frames = []
     for file in os.listdir(path):
         if file.endswith('.csv'):
@@ -66,9 +66,8 @@ def combine_csv_files(path):
             frames.append(df)
     return pd.concat(frames)
 
-
 def preprocess_data(df):
-    """Perform data preprocessing and calculations."""
+    """Thêm cột Month và Sales """
     df['Month'] = df['Order Date'].str[0:2]  # Extract month from Order Date
     df = df.dropna(how='all')  # Remove rows where all values are missing
     df = df[df['Month'] != 'Or']  # Remove invalid month data
@@ -80,7 +79,7 @@ def preprocess_data(df):
     return df
 
 def plot_sales_by_month(df, output_file='sales_by_month.png'):
-    """Generate and save a plot for sales by month."""
+    """Biểu diễn Sale của mỗi tháng"""
     monthly_sales = df.groupby('Month').sum(numeric_only=True)['Sales']
     months = range(1, 13)
     plt.bar(months, monthly_sales)
@@ -90,9 +89,8 @@ def plot_sales_by_month(df, output_file='sales_by_month.png'):
     plt.savefig(output_file)
     plt.close()
 
-
 def plot_sales_by_city(df, output_file='sales_by_city.png'):
-    """Generate and save a plot for sales by city."""
+    """Biểu diễn Sale của mỗi thành phố"""
     df['City'] = df['Purchase Address'].apply(lambda address: address.split(', ')[1])
     city_sales = df.groupby('City').sum(numeric_only=True)['Sales']
     cities = city_sales.index
@@ -103,9 +101,8 @@ def plot_sales_by_city(df, output_file='sales_by_city.png'):
     plt.savefig(output_file)
     plt.close()
 
-
 def plot_sales_by_hour(df, output_file='sales_by_hour.png'):
-    """Generate and save a plot for sales by hour."""
+    """Biểu diễn Sale tại mỗi khung giờ"""
     df['Order Date'] = pd.to_datetime(df['Order Date'])
     df['Hour'] = df['Order Date'].dt.hour
     hourly_sales = df.groupby('Hour').sum(numeric_only=True)['Sales']
@@ -118,17 +115,15 @@ def plot_sales_by_hour(df, output_file='sales_by_hour.png'):
     plt.savefig(output_file)
     plt.close()
 
-
 def save_top_10_products(df, output_file='top10_products.csv'):
-    """Save the top 10 products by count to a CSV file."""
+    """10 sản phẩm bán chạy"""
     df_dup = df[df['Order ID'].duplicated(keep=False)]
     df_dup['All Products'] = df_dup.groupby('Order ID')['Product'].transform(lambda x: ', '.join(x))
     df_dup = df_dup[['Order ID', 'All Products']].drop_duplicates()
     df_dup['All Products'].value_counts().head(10).to_csv(output_file)
 
-
 def plot_quantity_by_product(df, output_file='quantity_by_product.png'):
-    """Generate and save a plot for quantity by product."""
+    """Số lượng bán được của mỗi sản phẩm"""
     product_quantity = df.groupby('Product').sum(numeric_only=True)['Quantity Ordered']
     products = product_quantity.index
     plt.bar(products, product_quantity)
@@ -139,7 +134,7 @@ def plot_quantity_by_product(df, output_file='quantity_by_product.png'):
     plt.close()
 
 def plot_quantity_vs_price_by_product(df, output_file='price_vs_quantity_by_product.png'):
-    """Generate and save a plot comparing quantity versus price by product."""
+    """So sánh giá và số lượng sản phẩm bán được"""
     product_quantity = df.groupby('Product').sum(numeric_only=True)['Quantity Ordered']
     product_prices = df.groupby('Product')['Price Each'].mean()
     products = product_quantity.index
@@ -155,7 +150,7 @@ def plot_quantity_vs_price_by_product(df, output_file='price_vs_quantity_by_prod
     plt.close()
 
 def main():
-    """Main function to orchestrate the loading, processing, and plotting of data."""
+    """Hàm chính"""
     path = r'D:\Game\Du_An\Phan_tich_Du_Lieu\Du_Lieu\\'
     file_name = get_file_name()
     try:
