@@ -26,7 +26,7 @@ def input_file():
     root = tk.Tk()
     root.title("Dự án nhóm 3")
     ' Try cập ảnh'
-    image_path = r'/Du_An/Phan_tich_Du_Lieu/Code/project/PTIT_logo.png'
+    image_path = r'D:\Game\Du_An\Phan_tich_Du_Lieu\Code\project\PTIT_logo.png'
     img = Image.open(image_path)
     'Chỉnh sửa ảnh'
     img = img.resize((200, 200))
@@ -67,13 +67,13 @@ def combine_csv_files(path):
 
 def preprocess_data(df):
     """Thêm cột Month và Sales """
-    df['Month'] = df['Order Date'].str[0:2]  
-    df = df.dropna(how='all')  
-    df = df[df['Month'] != 'Or']  
+    df['Month'] = df['Order Date'].str[0:2]
+    df = df.dropna(how='all')
+    df = df[df['Month'] != 'Or']
     df['Quantity Ordered'] = pd.to_numeric(df['Quantity Ordered'], errors='coerce', downcast='integer')
     df['Price Each'] = pd.to_numeric(df['Price Each'], errors='coerce', downcast='float')
     df = df.dropna(subset=['Quantity Ordered', 'Price Each', 'Order Date'])
-    df['Sales'] = df['Quantity Ordered'] * df['Price Each']  
+    df['Sales'] = df['Quantity Ordered'] * df['Price Each']
     df.insert(4, 'Sales', df.pop('Sales'))
     data = os.path.join(folder_name, 'Report_Sales_2019.csv')
     df.to_csv(data, index=False)
