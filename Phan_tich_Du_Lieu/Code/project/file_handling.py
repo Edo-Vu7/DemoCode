@@ -22,15 +22,19 @@ def input_file():
             root.destroy()
 
     root = tk.Tk()
-    root.title("Dự án nhóm 3")
+    root.title("Dự án nhóm 1")
     image_path = r'D:\Game\Du_An\Phan_tich_Du_Lieu\Code\project\PTIT_logo.png'
+    #chỉnh size ảnh
     img = Image.open(image_path)
     img = img.resize((200, 200))
     photo = ImageTk.PhotoImage(img)
+    #cho ảnh màn hình
     image_label = tk.Label(root, image=photo)
     image_label.pack(padx=20, pady=10)
+    #Lời ghi chú
     label = tk.Label(root, text="Vui lòng chọn file:")
     label.pack(padx=20, pady=10)
+    # Nút chọn file
     button = tk.Button(root, text="Chọn file", command=submit)
     button.pack(padx=20, pady=20)
     root.mainloop()

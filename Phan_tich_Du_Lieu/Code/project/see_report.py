@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
 def see_report():
+    """trình bày các giá trị mới phân tích"""
     img_original,img = '',''
     def open_image():
         file_path = filedialog.askopenfilename(
@@ -28,19 +29,15 @@ def see_report():
     # Giao diện Tkinter
     root = tk.Tk()
     root.title("Báo cáo dữ liệu")
-
     # Nút chọn hình ảnh
     btn_open = tk.Button(root, text="Chọn hình ảnh", command=open_image)
     btn_open.pack(pady=5)
-
     # Khung để hiển thị hình ảnh
     frame = tk.Frame(root, width=400, height=300, bg="gray")
     frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-
     # Label để hiển thị hình ảnh
     label_img = tk.Label(frame, bg="gray")
     label_img.pack(fill=tk.BOTH, expand=True)
-
     # Gắn sự kiện cập nhật khi khung thay đổi kích thước
     frame.bind("<Configure>", update_image)
     root.mainloop()

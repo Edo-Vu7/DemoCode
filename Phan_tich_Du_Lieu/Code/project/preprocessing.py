@@ -3,7 +3,7 @@ import os
 from file_handling import get_base_path
 
 def preprocess_data(df):
-    """Preprocess data: clean, format, and add columns."""
+    """chỉnh sửa lại dữ liệu"""
     folder_name = "Sales_Report"
     df['Month'] = df['Order Date'].str[0:2]
     df = df.dropna(how='all')

@@ -5,7 +5,7 @@ from file_handling import get_base_path
 folder_name = os.path.join(get_base_path(), 'Sales_Report')
 
 def plot_sales_by_month(df):
-    """Plot sales by month."""
+    """bảng giá trị bán đươợc mỗi tháng"""
     monthly_sales = df.groupby('Month').sum(numeric_only=True)['Sales']
     months = range(1, 13)
     plt.bar(months, monthly_sales)
@@ -17,7 +17,7 @@ def plot_sales_by_month(df):
     plt.close()
 
 def plot_sales_by_city(df):
-    """Plot sales by city."""
+    """bảng giá trị bán được theo thành phố"""
     df['City'] = df['Purchase Address'].apply(lambda address: address.split(', ')[1])
     city_sales = df.groupby('City').sum(numeric_only=True)['Sales']
     cities = city_sales.index
@@ -30,7 +30,7 @@ def plot_sales_by_city(df):
     plt.close()
 
 def plot_sales_by_hour(df):
-    """Plot sales by hour."""
+    """bản giá trị bán được theo giờ"""
     df['Order Date'] = pd.to_datetime(df['Order Date'])
     df['Hour'] = df['Order Date'].dt.hour
     hourly_sales = df.groupby('Hour').sum(numeric_only=True)['Sales']
@@ -45,7 +45,7 @@ def plot_sales_by_hour(df):
     plt.close()
 
 def plot_quantity_by_product(df):
-    """Plot quantity sold by product."""
+    """bảng số lượng bán được của mỗi sản phẩm"""
     product_quantity = df.groupby('Product').sum(numeric_only=True)['Quantity Ordered']
     products = product_quantity.index
     plt.bar(products, product_quantity)
@@ -57,7 +57,7 @@ def plot_quantity_by_product(df):
     plt.close()
 
 def plot_quantity_vs_price_by_product(df):
-    """Plot quantity vs price by product."""
+    """bảng so sánh số lượng sản phẩm với giá cả của từng sản phẩm"""
     product_quantity = df.groupby('Product').sum(numeric_only=True)['Quantity Ordered']
     product_prices = df.groupby('Product')['Price Each'].mean()
     products = product_quantity.index
