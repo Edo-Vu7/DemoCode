@@ -23,7 +23,7 @@ def input_file():
 
     root = tk.Tk()
     root.title("Dự án nhóm 1")
-    image_path = r'D:\Game\Du_An\Phan_tich_Du_Lieu\Code\project\PTIT_logo.png'
+    image_path = os.path.join(os.getcwd(),'PTIT_logo.png')
     #chỉnh size ảnh
     img = Image.open(image_path)
     img = img.resize((200, 200))
